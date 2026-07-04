@@ -1,0 +1,398 @@
+:root {
+    --text-color: #ffffff;
+    --bg-color: rgba(0, 0, 0, 0.2);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --primary-accent: rgba(255, 255, 255, 0.8);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif; /* Fallback, overridden by JS */
+    color: var(--text-color);
+    background-color: transparent;
+    overflow: hidden; /* Hide scrollbars in widget mode */
+    user-select: none;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#drag-region {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-app-region: drag;
+    z-index: 1;
+}
+
+.widget-container {
+    position: relative;
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    background: var(--bg-color);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    box-shadow: var(--glass-shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+/* Screensaver Mode Overrides */
+body.screensaver-mode .widget-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    border: none;
+    background: rgba(0, 0, 0, 0.8); /* Darker background for screensaver */
+    backdrop-filter: none;
+    box-shadow: none;
+}
+
+body.screensaver-mode #drag-region {
+    -webkit-app-region: no-drag;
+}
+
+/* Controls */
+.controls-overlay {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    -webkit-app-region: no-drag;
+}
+
+.widget-container:hover .controls-overlay {
+    opacity: 1;
+}
+
+.controls-overlay button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-color);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1.2rem;
+}
+
+.controls-overlay button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+/* Clock Display */
+.clock-module {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.time-display {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 5px;
+}
+
+.time-group {
+    font-size: clamp(3rem, 15vw, 8rem);
+    font-weight: 700;
+    line-height: 1;
+    display: flex;
+    align-items: baseline;
+    letter-spacing: -2px;
+}
+
+.digit {
+    display: inline-block;
+    position: relative;
+    /* CSS for transitions added dynamically via JS */
+}
+
+/* Transitions */
+.transition-fade {
+    animation: fadeInOut 0.5s ease-in-out;
+}
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 1; }
+}
+
+.transition-slide {
+    animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+@keyframes slideUp {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+.transition-flip {
+    animation: flipX 0.6s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+@keyframes flipX {
+    0% { transform: rotateX(-90deg); opacity: 0; }
+    100% { transform: rotateX(0); opacity: 1; }
+}
+
+.ampm {
+    font-size: clamp(1rem, 4vw, 2rem);
+    font-weight: 500;
+    opacity: 0.8;
+    margin-left: 10px;
+}
+
+.date-display {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    font-weight: 300;
+    opacity: 0.9;
+    margin-top: 5px;
+    letter-spacing: 1px;
+}
+
+/* Info Row (Weather & World Clock) */
+.info-row {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.weather-module, .world-clock-module {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    opacity: 0.9;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Pomodoro Module */
+.pomodoro-module {
+    margin-top: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 15px 25px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid var(--glass-border);
+    -webkit-app-region: no-drag;
+}
+
+.pomodoro-display {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.pomodoro-controls button {
+    background: var(--primary-accent);
+    border: none;
+    color: #000;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin: 0 5px;
+    transition: transform 0.2s;
+}
+
+.pomodoro-controls button:hover {
+    transform: scale(1.1);
+}
+
+/* Reminder Popup */
+.reminder-popup {
+    position: absolute;
+    bottom: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: slideUp 0.3s ease-out;
+    -webkit-app-region: no-drag;
+}
+
+.reminder-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #ffcc00;
+}
+
+.reminder-body {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+#reminder-dismiss {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+#reminder-dismiss:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ═══════════════════════════════════════
+   Media / Music Player Module
+═══════════════════════════════════════ */
+.media-module {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.07);
+    padding: 10px 16px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    -webkit-app-region: no-drag;
+    min-width: 0;
+    max-width: 280px;  /* compact fixed width */
+    width: 280px;
+}
+
+/* Album art thumbnail */
+.media-thumb {
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.media-thumb i {
+    font-size: 1.4rem;
+    opacity: 0.5;
+}
+
+.media-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Controls row */
+.media-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.media-btn {
+    background: transparent;
+    border: none;
+    color: inherit;
+    cursor: pointer !important;
+    font-size: 1.15rem;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.15s, transform 0.15s;
+    -webkit-app-region: no-drag;
+    padding: 0;
+}
+
+.media-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.12);
+}
+
+.media-btn:active {
+    transform: scale(0.96);
+}
+
+/* Track info */
+.media-info {
+    display: flex;
+    flex-direction: column;
+    width: 110px;          /* fixed width so marquee has a defined scroll container */
+    overflow: hidden;
+}
+
+/* Marquee wrapper — clips the scrolling text */
+.media-title-wrap,
+.media-artist-wrap {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.media-title {
+    font-weight: 600;
+    font-size: 0.88rem;
+    display: inline-block;
+    white-space: nowrap;
+    animation: none;           /* JS starts marquee when text overflows */
+}
+
+.media-artist {
+    font-size: 0.76rem;
+    opacity: 0.65;
+    display: inline-block;
+    white-space: nowrap;
+    animation: none;
+}
+
+/* Marquee scroll keyframe */
+@keyframes marqueeScroll {
+    0%   { transform: translateX(0); }
+    10%  { transform: translateX(0); }       /* pause at start */
+    80%  { transform: translateX(var(--scroll-dist)); }
+    90%  { transform: translateX(var(--scroll-dist)); } /* pause at end */
+    100% { transform: translateX(0); }
+}
+
+.marquee-active {
+    animation: marqueeScroll 6s linear infinite;
+}

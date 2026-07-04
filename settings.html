@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widget Settings</title>
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background: #1f1f1f;
+            padding: 20px 30px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .header h2 { margin: 0; font-weight: 500; font-size: 1.5rem; }
+        
+        .container {
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .section {
+            background: #1e1e1e;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .setting-group { margin-bottom: 20px; }
+        .setting-group:last-child { margin-bottom: 0; }
+        label { display: block; margin-bottom: 8px; font-weight: 500; color: #ccc; font-size: 0.9rem; }
+        
+        select, input[type="text"], input[type="number"], input[type="file"], input[type="color"] {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: #2a2a2a;
+            color: #fff;
+            box-sizing: border-box;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+        select:focus, input:focus { border-color: #6366f1; outline: none; }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            margin-bottom: 0;
+        }
+        input[type="checkbox"] { width: 18px; height: 18px; accent-color: #6366f1; cursor: pointer; }
+        
+        .file-input-wrapper { display: flex; align-items: center; gap: 15px; }
+        .file-input-wrapper input[type="file"] { flex: 1; }
+        small { display: block; margin-top: 5px; color: #888; font-size: 0.8rem; word-break: break-all; }
+        
+        .btn {
+            background: #3f3f46;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-family: inherit;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+        .btn:hover { background: #52525b; }
+        .btn-primary { background: #6366f1; padding: 12px 24px; font-size: 1rem; width: 100%; justify-content: center; margin-bottom: 15px; }
+        .btn-primary:hover { background: #4f46e5; }
+        .btn-danger { background: transparent; border: 1px solid #ef4444; color: #ef4444; width: 100%; justify-content: center; }
+        .btn-danger:hover { background: rgba(239, 68, 68, 0.1); }
+
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 20px;
+        }
+
+        .color-row { display: flex; gap: 20px; }
+        .color-row .setting-group { flex: 1; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <i class="ph ph-gear" style="font-size: 2rem; color: #6366f1;"></i>
+        <h2>Widget Settings</h2>
+    </div>
+    
+    <div class="container">
+        <!-- Display Settings -->
+        <div class="section">
+            <h3 class="section-title"><i class="ph ph-clock"></i> General & Time</h3>
+            <div class="color-row">
+                <div class="setting-group">
+                    <label>Time Format</label>
+                    <select id="time-format">
+                        <option value="HH:MM">HH:MM</option>
+                        <option value="HH:MM:SS">HH:MM:SS</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <label>Transition Animation</label>
+                    <select id="transition-type">
+                        <option value="fade">Fade</option>
+                        <option value="slide">Slide Up</option>
+                        <option value="flip">Flip</option>
+                    </select>
+                </div>
+            </div>
+            <div class="setting-group" style="margin-top: 15px; display: flex; gap: 20px;">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="show-ampm"> Show AM/PM Indicator
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="launch-startup"> Launch on Windows Startup
+                </label>
+            </div>
+            <div class="setting-group" style="margin-top: 15px;">
+                <label>World Clock (Secondary Time)</label>
+                <select id="world-clock-tz">
+                    <option value="">None</option>
+                    <option value="UTC">UTC (Universal Coordinated Time)</option>
+                    <option value="America/New_York">New York (EST/EDT)</option>
+                    <option value="America/Los_Angeles">Los Angeles (PST/PDT)</option>
+                    <option value="Europe/London">London (GMT/BST)</option>
+                    <option value="Europe/Paris">Paris (CET/CEST)</option>
+                    <option value="Asia/Dubai">Dubai (GST)</option>
+                    <option value="Asia/Tokyo">Tokyo (JST)</option>
+                    <option value="Australia/Sydney">Sydney (AEST/AEDT)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Appearance -->
+        <div class="section">
+            <h3 class="section-title"><i class="ph ph-palette"></i> Appearance</h3>
+            <div class="color-row">
+                <div class="setting-group">
+                    <label>Text Color</label>
+                    <input type="color" id="text-color" value="#ffffff" style="padding: 2px; height: 40px;">
+                </div>
+                <div class="setting-group">
+                    <label>Background Tint</label>
+                    <input type="color" id="bg-color" value="#000000" style="padding: 2px; height: 40px;">
+                </div>
+            </div>
+            <div class="setting-group">
+                <label>Background Opacity (<span id="bg-opacity-val">20</span>%)</label>
+                <input type="range" id="bg-opacity" min="0" max="100" value="20" style="width: 100%; margin-top: 5px;">
+            </div>
+            
+            <div class="setting-group">
+                <label>Custom Font (.ttf, .otf)</label>
+                <input type="file" id="font-file" accept=".ttf,.otf,.woff,.woff2">
+                <small id="current-font">No custom font selected</small>
+            </div>
+
+            <div class="setting-group">
+                <label>Widget Background Image</label>
+                <input type="file" id="bg-image" accept="image/*">
+                <small id="current-bg-image">No image selected</small>
+            </div>
+
+            <div class="setting-group">
+                <label>Clock Text Image Mask</label>
+                <input type="file" id="text-image" accept="image/*">
+                <small id="current-text-image">No image selected</small>
+            </div>
+        </div>
+
+        <!-- Productivity -->
+        <div class="section">
+            <h3 class="section-title"><i class="ph ph-brain"></i> Productivity & Reminders</h3>
+            <div class="color-row">
+                <div class="setting-group">
+                    <label>Pomodoro Session (mins)</label>
+                    <input type="number" id="pomodoro-time" min="1" max="120" value="25">
+                </div>
+                <div class="setting-group">
+                    <label>Idle Screensaver (secs)</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="number" id="idle-timeout" min="10" max="3600" value="300">
+                        <button class="btn" id="test-screensaver-btn" title="Test (5s)"><i class="ph ph-play"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="setting-group" style="margin-top: 15px;">
+                <label>Pomodoro Completion Reminder Message</label>
+                <input type="text" id="reminder-msg" placeholder="Time to take a break!" value="Pomodoro session complete! Take a break.">
+            </div>
+        </div>
+
+        <!-- Media -->
+        <div class="section">
+            <h3 class="section-title"><i class="ph ph-music-notes"></i> Offline Music</h3>
+            <div class="setting-group">
+                <label>Local Music Directory</label>
+                <button class="btn" id="select-music-dir-btn"><i class="ph ph-folder-open"></i> Browse Folder...</button>
+                <small id="current-music-dir">No folder selected</small>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" id="save-btn"><i class="ph ph-floppy-disk"></i> Save All Settings</button>
+        <button class="btn btn-danger" id="reset-btn"><i class="ph ph-arrow-counter-clockwise"></i> Reset to Defaults</button>
+
+        <div class="footer">
+            Developer Contribution: GitHub <a href="https://github.com/velang2003" style="color:#6366f1;text-decoration:none;">@velang2003</a>
+        </div>
+    </div>
+
+    <script src="scripts/settings.js"></script>
+</body>
+</html>

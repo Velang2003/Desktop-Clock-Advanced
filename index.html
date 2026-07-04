@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desktop Clock Widget</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- Google Fonts for fallback -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <div id="drag-region"></div>
+
+    <div class="widget-container" id="widget-container">
+
+        <!-- Settings / Pomodoro toggle controls (visible on hover) -->
+        <div class="controls-overlay">
+            <button id="settings-btn" title="Settings"><i class="ph ph-gear"></i></button>
+            <button id="pomodoro-toggle-btn" title="Pomodoro Timer"><i class="ph ph-timer"></i></button>
+        </div>
+
+        <!-- Main clock display -->
+        <div class="clock-module">
+            <div class="time-display" id="time-display">
+                <div class="time-group">
+                    <span class="digit" id="hour">12</span>
+                    <span class="colon">:</span>
+                    <span class="digit" id="minute">00</span>
+                    <span class="colon" id="second-colon" style="display:none;">:</span>
+                    <span class="digit" id="second" style="display:none;">00</span>
+                </div>
+                <span class="ampm" id="ampm">AM</span>
+            </div>
+            <div class="date-display" id="date-display">Monday, Jan 1</div>
+        </div>
+
+        <!-- Info row: weather + world clock -->
+        <div class="info-row">
+            <div class="weather-module" id="weather-module">
+                <i class="ph ph-cloud-sun"></i>
+                <span id="weather-temp">--°</span>
+            </div>
+            <div class="world-clock-module" id="world-clock-module" style="display:none;">
+                <i class="ph ph-globe"></i>
+                <span id="world-time">--:--</span>
+            </div>
+        </div>
+
+        <!-- Music Player (hidden until musicDir is set) -->
+        <div class="media-module" id="media-module" style="display:none;">
+            <!-- Album art thumbnail -->
+            <div class="media-thumb" id="media-thumb">
+                <i class="ph ph-music-notes" id="media-thumb-placeholder"></i>
+                <img id="media-thumb-img" src="" alt="Album Art" style="display:none;" />
+            </div>
+            <!-- Playback controls -->
+            <div class="media-controls">
+                <button class="media-btn" id="media-prev" title="Previous"><i class="ph ph-skip-back"></i></button>
+                <button class="media-btn" id="media-playpause" title="Play"><i class="ph ph-play"></i></button>
+                <button class="media-btn" id="media-next" title="Next"><i class="ph ph-skip-forward"></i></button>
+            </div>
+            <!-- Track info -->
+            <div class="media-info">
+                <div class="media-title-wrap">
+                    <span class="media-title" id="media-title-text">No Music</span>
+                </div>
+                <div class="media-artist-wrap">
+                    <span class="media-artist" id="media-artist-text">Offline Player</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pomodoro module (hidden until toggled) -->
+        <div class="pomodoro-module" id="pomodoro-module" style="display:none;">
+            <div class="pomodoro-display" id="pomodoro-time">25:00</div>
+            <div class="pomodoro-controls">
+                <button id="pomodoro-start"><i class="ph ph-play"></i></button>
+                <button id="pomodoro-reset"><i class="ph ph-arrow-counter-clockwise"></i></button>
+            </div>
+        </div>
+
+        <!-- Reminder popup (in-app notification) -->
+        <div class="reminder-popup" id="reminder-popup" style="display:none;">
+            <div class="reminder-header">
+                <i class="ph ph-bell-ringing"></i>
+                <span>Reminder</span>
+            </div>
+            <div class="reminder-body" id="reminder-text">Time to stretch!</div>
+            <button id="reminder-dismiss">Dismiss</button>
+        </div>
+
+    </div>
+
+    <!-- Dynamic style injection slots -->
+    <style id="dynamic-custom-font"></style>
+    <style id="dynamic-colors"></style>
+
+    <!-- Scripts (order matters: renderer first, then features) -->
+    <script src="scripts/renderer.js"></script>
+    <script src="scripts/weather.js"></script>
+    <script src="scripts/media.js"></script>
+    <script src="scripts/pomodoro.js"></script>
+</body>
+</html>

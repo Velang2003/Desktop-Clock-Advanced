@@ -1,0 +1,52 @@
+{
+  "name": "desktop-clock",
+  "version": "1.0.0",
+  "description": "Customizable Desktop Clock Widget and Screensaver for Windows",
+  "main": "main.js",
+  "author": "velang2003",
+  "license": "ISC",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win --publish never"
+  },
+  "keywords": ["clock", "widget", "screensaver", "windows"],
+  "devDependencies": {
+    "electron": "^31.3.1",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.velang2003.desktopclock",
+    "productName": "Desktop Clock",
+    "copyright": "Copyright © 2025 velang2003",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        { "target": "nsis", "arch": ["x64"] },
+        { "target": "portable", "arch": ["x64"] }
+      ],
+      "icon": "assets/icon.ico",
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": false,
+      "allowToChangeInstallationDirectory": false,
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Desktop Clock",
+      "menuCategory": "Desktop Clock",
+      "runAfterFinish": true
+    },
+    "files": [
+      "**/*",
+      "!dist/**",
+      "!**/*.md",
+      "!*.log"
+    ]
+  }
+}
