@@ -31,7 +31,13 @@
 **Desktop Clock Advanced** is a sleek, transparent **desktop widget** that floats on your Windows wallpaper — no taskbar icon, no window chrome, just pure information at a glance. It doubles as a full-screen **screensaver** when your PC goes idle, and packs in a surprisingly rich set of productivity and media tools all within a single lightweight Electron application.
 
 ---
+##  Screenshots
 
+| Create Habit |
+|:---:|
+| <img src="https://github.com/Velang2003/Desktop-Clock-Advanced/blob/main/Readme%20assets/img1.png" width="250"/> |
+
+---
 ## 🚀 Features
 
 ### 🕐 Clock & Time
