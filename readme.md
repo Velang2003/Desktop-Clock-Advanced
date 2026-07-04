@@ -33,9 +33,9 @@
 ---
 ##  Screenshots
 
-| Create Habit |
+| Widget View |
 |:---:|
-| <img src="https://github.com/Velang2003/Desktop-Clock-Advanced/blob/main/Readme%20assets/img1.png" width="250"/> |
+| <img src="https://github.com/Velang2003/Desktop-Clock-Advanced/blob/main/Readme%20assets/img1.png" width="450"/> |
 
 ---
 ## 🚀 Features
